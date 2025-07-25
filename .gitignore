@@ -1,5 +1,5 @@
 # 编译输出和临时文件
-/target/
+target/
 **/*.rs.bk
 **/*.rs.bk2
 
