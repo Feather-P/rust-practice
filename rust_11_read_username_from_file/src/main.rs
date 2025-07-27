@@ -1,4 +1,4 @@
-use std::{fs,fs::File, io::{self, Read}, result, string};
+use std::{fs,fs::File, io::{self, Read}};
 
 fn main() {
     fn read_username_from_file(file_name: &str) -> Result<String, io::Error> {
