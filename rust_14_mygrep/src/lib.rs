@@ -8,16 +8,25 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn build(args: &[String]) -> Result<Config, &str> {
-        if args.len() <3 {
-            return Err("Not enough arguments")
-        }
-        let first_str = args[1].clone();
-        let second_str = args[2].clone();
+    pub fn build(
+        mut args: impl Iterator<Item = String>)
+        -> Result<Config, &'static str> {
 
+        args.next();
+        
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get the query argument (first argument)"),
+        };
+
+        let file_name = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get the file_name argument (second argument)")
+        };
+        
         let ignore_case = env::var("IGNORE_CASE").is_ok();
 
-        Ok(Config { query: first_str, file_name: second_str, ignore_case})
+        Ok(Config { query, file_name, ignore_case})
     }
 }
 
