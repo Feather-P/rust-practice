@@ -46,24 +46,14 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn search<'a>(target: &str, content: &'a str) -> Vec<&'a str>{
-    let mut result = Vec::new();
-    for line in content.lines(){
-        if line.contains(target){
-            result.push(line);
-        }
-    }
-    result
+    content.lines().filter(|x| x.contains(target)).collect()
 }
 
 pub fn search_insensive<'a>(target: &str, content: &'a str) -> Vec<&'a str> {
-    let mut result = Vec::new();
     let target = target.to_lowercase();
-    for line in content.lines(){
-        if line.to_lowercase().contains(&target){
-            result.push(line);
-        }
-    }
-    result
+    content.lines().filter(|x| {
+        x.to_lowercase().contains(&target)
+    }).collect()
 }
 
 #[cfg(test)]
