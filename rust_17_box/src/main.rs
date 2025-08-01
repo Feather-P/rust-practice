@@ -18,9 +18,10 @@ fn main() {
                     // 如果不是 Nil，继续写后面的元素
                     match **next {
                         List::Nil => Ok(()),
-                        _ => write!(f, " -> {}", next),
+                        _ => write!(f, ", {}", next),
                     }
                 }
+                // 当整个结构都为空时打印Nil
                 List::Nil => write!(f, "Nil"),
             }
         }
@@ -29,7 +30,9 @@ fn main() {
     {
         // Example 15-3 and more
         use List::{Cons, Nil};
-        let test_list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
-        println!("{test_list}")
+        let test_list = Box::new(Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil)))))));
+        println!("{test_list}");
+        let blank_list = Box::new(Nil);
+        println!("{}", blank_list)
     }
 }
