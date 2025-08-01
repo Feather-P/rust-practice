@@ -1,4 +1,19 @@
-use std::fmt;
+use std::{fmt, ops::Deref};
+
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
+}
+
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
 
 fn main() {
     let b = Box::new(5);
@@ -8,6 +23,7 @@ fn main() {
         Cons(i32, Box<List>),
         Nil,
     }
+
     impl fmt::Display for List {
         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
             match self {
@@ -34,5 +50,23 @@ fn main() {
         println!("{test_list}");
         let blank_list = Box::new(Nil);
         println!("{}", blank_list)
+    }
+
+    let m = MyBox::new(String::from("Rust"));
+    hello(&m);
+}
+
+fn hello(name: &str) {
+    println!("Hello, {name}!");
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::MyBox;
+
+    #[test]
+    fn test_deref_trait() {
+        let fool_pointer = MyBox::new(5);
+        assert_eq!(5, *fool_pointer)
     }
 }
