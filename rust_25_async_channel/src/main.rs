@@ -1,5 +1,5 @@
 use std::time::Duration;
-
+use std::pin::{Pin, pin};
 use trpl::{self, sleep};
 
 fn main() {
@@ -26,26 +26,28 @@ fn example2() {
         let (tx, mut rx) = trpl::channel();
         let tx1 = tx.clone();
 
-        let send = async move {
+        let send = pin!(async move {
             for i in 0..5 {
                 tx.send(i).unwrap();
                 sleep(Duration::from_millis(300)).await;
             }
-        };
+        });
 
-        let receive = async {
+        let receive = pin!(async {
             while let Some(message) = rx.recv().await {
                 println!("Got value: {}", message);
             }
-        };
+        });
 
-        let send2 = async move {
+        let send1 = pin!(async move {
             for i in 0..15 {
                 tx1.send(i).unwrap();
                 sleep(Duration::from_millis(100)).await;
             }
-        };
+        });
 
-        trpl::join3(send, receive, send2).await;
+        let futures: Vec<Pin<&mut dyn Future<Output = ()>>>
+        = vec![send, receive, send1];
+        trpl::join_all(futures).await;
     });
 }
