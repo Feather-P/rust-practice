@@ -1,12 +1,14 @@
 pub struct Post {
     status: Option<Box<dyn Status>>,
-    content: String
+    content: String,
 }
 
 impl Post {
     pub fn new() -> Post {
-        Post { status: Some(Box::new(Draft {})), 
-            content: String::new()}
+        Post {
+            status: Some(Box::new(Draft {})),
+            content: String::new(),
+        }
     }
 
     pub fn add(&mut self, content: &str) {
