@@ -27,8 +27,3 @@ rust-practice/
 ---
 
 HappyRusting !
-
-    _~^~^~_
-\) /  o o  \ (/
-  '_   ¬   _'
-  \ '-----' /
