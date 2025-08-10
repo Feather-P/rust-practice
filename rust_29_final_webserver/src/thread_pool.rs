@@ -1,5 +1,5 @@
 use std::{
-    os::unix::process, sync::{
+    sync::{
         mpsc::{self, channel, Receiver}, Arc, Mutex
     }, thread
 };
